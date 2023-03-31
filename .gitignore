@@ -1,0 +1,10 @@
+/vendor/
+/wordpress/wp-admin
+/wordpress/wp-includes
+/wordpress/*.php
+/wordpress/license.txt
+/wordpress/*
+
+# Files to keep
+/wordpress/wp-content/*
+/wordpress/wp-content/**/*
