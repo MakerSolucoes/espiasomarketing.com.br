@@ -22,9 +22,6 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
 
     - name: 🚀 Install dependencies
+      uses: ramsey/composer-install@v1
       with:
         php-version: '7.4'
-      run: |
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-        composer install
