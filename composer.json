@@ -2,17 +2,34 @@
     "name": "alone/espiasomarketing.com.br",
     "description": "Composer for espiaso project",
     "require": {
-        "roots/wordpress": "^6.2"
+        "roots/wordpress": "^6.1",
+        "wpackagist-theme/intentionally-blank": "3.0.3",
+        "wpackagist-plugin/wp-rest-api-controller": "2.1.2"
     },
-    "authors": [
-        {
-            "name": "Andre Freire",
-            "email": "andrefreirecg@gmail.com"
-        }
-    ],
+    "repositories": [{
+        "type": "composer",
+        "url": "https://wpackagist.org"
+    }],
+    "scripts": {
+        "move-wordpress": [
+            "if [ ! -d \"wordpress/wp-content\" ]; then mkdir wordpress/wp-content; fi",
+            "if [ ! -d \"wordpress/wp-content/plugins\" ]; then mkdir wordpress/wp-content/plugins; fi",
+            "if [ ! -d \"wordpress/wp-content/themes\" ]; then mkdir wordpress/wp-content/themes; fi",
+            "cp -rf vendor/wpackagist-plugin/wp-rest-api-controller wordpress/wp-content/plugins/",
+            "cp -rf vendor/wpackagist-theme/intentionally-blank wordpress/wp-content/themes/",
+            "rm -rf vendor"
+        ],
+        "post-install-cmd": [
+            "@move-wordpress"
+        ],
+        "post-update-cmd": [
+            "@move-wordpress"
+        ]
+    },
     "config": {
         "allow-plugins": {
-            "roots/wordpress-core-installer": true
+            "roots/wordpress-core-installer": true,
+            "composer/installers": false
         }
     }
 }
