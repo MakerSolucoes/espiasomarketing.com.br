@@ -22,7 +22,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
 
     - name: 🚀 Install dependencies
-      with:
-        php-version: '7.4'
-      run: |
-        composer install
+      uses: docker://composer:2
+      run: composer install
