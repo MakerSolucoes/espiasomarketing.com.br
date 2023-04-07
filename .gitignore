@@ -19,7 +19,7 @@ wp-settings.php
 wp-signup.php
 wp-trackback.php
 xmlrpc.php
-
+wp-content/themes/espiaso/node_modules/
 
 wordpress/wp-admin
 wordpress/wp-includes
