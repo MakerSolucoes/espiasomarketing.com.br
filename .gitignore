@@ -23,6 +23,8 @@ wp-config-sample.php
 wp-content/themes/espiaso/node_modules/
 wp-content/themes/intentionally-blank/
 wp-content/uploads
+wp-content/plugins
+wp-content/languages
 # Files to keep
 !/wp-content/
 
