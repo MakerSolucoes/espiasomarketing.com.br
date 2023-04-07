@@ -26,8 +26,8 @@ wordpress/wp-includes
 wordpress/*.php
 wordpress/license.txt
 wordpress/*
-wordpress/wp-content/uploads
+wp-content/uploads
 
 # Files to keep
-!wordpress/wp-content/
+!/wp-content/
 
