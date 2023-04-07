@@ -12,12 +12,8 @@
     }],
     "scripts": {
         "move-wordpress": [
-            "if [ ! -d \"wordpress/wp-content\" ]; then mkdir wordpress/wp-content; fi",
-            "if [ ! -d \"wordpress/wp-content/plugins\" ]; then mkdir wordpress/wp-content/plugins; fi",
-            "if [ ! -d \"wordpress/wp-content/themes\" ]; then mkdir wordpress/wp-content/themes; fi",
-            "cp -rf vendor/wpackagist-plugin/wp-rest-api-controller wordpress/wp-content/plugins/",
-            "cp -rf vendor/wpackagist-theme/intentionally-blank wordpress/wp-content/themes/",
-            "rm -rf vendor"
+            "cp -r wordpress/* ./",
+            "rm -rf wordpress"
         ],
         "post-install-cmd": [
             "@move-wordpress"
