@@ -55,5 +55,6 @@ wp-content/plugins
 wp-content/languages
 # Files to keep
 !/wp-content/
+!/wp-content/themes/espiaso/index.php
 
 
