@@ -28,4 +28,4 @@ wp-content/languages
 # Files to keep
 !/wp-content/
 !/wp-content/themes/espiaso/index.php
-
+!/wp-content/plugins/advanced-custom-fields-pro
