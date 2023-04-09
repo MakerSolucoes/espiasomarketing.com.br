@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import SocialWidget from '../Widget/SocialWidget';
+import getWordPressContent from '../../functions/api/api';
 import Newsletter from '../Widget/Newsletter';
 import './header.scss';
 import ContactInfoWidget from '../Widget/ContactInfoWidget';
 import Div from '../Div';
 import DropDown from './DropDown';
+let response = '';
+async function fetchData() {
+  response = await getWordPressContent();
+}
+
 
 export default function Header({ variant }) {
   const [isSticky, setIsSticky] = useState(false);
   const [sideHeaderToggle, setSideHeaderToggle] = useState(false);
   const [mobileToggle, setMobileToggle] = useState(false);
+  const [dataSetting, setLogoUrl] = useState("");
   useEffect(() => {
+
+
+    async function fetchLogo() {
+      await fetchData();
+      setLogoUrl(response);
+    }
+    fetchLogo();
+
     window.addEventListener('scroll', () => {
       if (window.scrollY > 0) {
         setIsSticky(true);
@@ -20,6 +35,7 @@ export default function Header({ variant }) {
       }
     });
   }, []);
+  console.log()
 
   return (
     <>
@@ -33,7 +49,7 @@ export default function Header({ variant }) {
             <Div className="cs-main_header_in">
               <Div className="cs-main_header_left">
                 <Link className="cs-site_branding" to="/">
-                  <img src="/images/logo.svg" alt="Logo" />
+                  <img src={dataSetting.logo} alt="Logo" />
                 </Link>
               </Div>
               <Div className="cs-main_header_center">
