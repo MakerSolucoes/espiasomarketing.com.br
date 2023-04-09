@@ -1,17 +1,12 @@
-export async function getWordPressContent() {
-  try {
-    const url_base = 'https://espiasomarketing.com.br.loc'
-      const settingsData = fetch(url_base + '/wordpress/index.php?rest_route=/wp/v2/settings', {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Basic ' + btoa('ms_admin:RqPid!0D)jO^TvZ39d')
-        }
-      })
-      .then(response => {
-        console.log(response);
-      })
-    } catch (error) {
-      // console.error(error);
-    }
-  }
-  
+export default async function getWordPressContent() {
+  const url_base = 'http://espiasomarketing.com.br.loc';
+  const response = await fetch(url_base + '/wp-json/espia/v1/configs', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+  });
+  const arrayResponse = await response.json();
+  return arrayResponse;
+}
