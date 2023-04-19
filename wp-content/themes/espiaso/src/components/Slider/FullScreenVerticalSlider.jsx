@@ -4,8 +4,8 @@ import { Mousewheel, Pagination, Navigation } from 'swiper';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import parse from 'html-react-parser';
-import 'swiper/css';
-import 'swiper/css/pagination';
+// import 'swiper/css';
+// import 'swiper/css/pagination';
 import Div from '../Div';
 
 export default function FullScreenVerticalSlider({ data }) {

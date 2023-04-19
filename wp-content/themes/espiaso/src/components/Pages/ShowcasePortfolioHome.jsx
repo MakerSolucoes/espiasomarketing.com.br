@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { pageTitle } from '../../helper';
-import 'swiper/css';
-import 'swiper/css/pagination';
+// import '../../../node_modules/swiper/';
+// import 'swiper/css/pagination';
 import Hero6 from '../Hero/Hero6';
 
 export default function ShowcasePortfolioHome() {

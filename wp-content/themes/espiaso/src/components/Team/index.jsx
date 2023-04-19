@@ -36,6 +36,11 @@ export default function Team({memberImage, memberName, memberDesignation, member
               <Icon icon="fa-brands:facebook-f" />                    
             </Link>
           )}
+          {memberSocial.instagram && (
+            <Link to={memberSocial.instagram}>
+              <Icon icon="fa-brands:instagram" />                    
+            </Link>
+          )}
         </Div>
       </Div>
   )
