@@ -12,7 +12,7 @@ function ms_enqueue_scripts_front()
 		$files = array_merge($css);
 		foreach ($files as $file) {
 			if (strpos($file, '.css') !== false && !in_array($file, array('txt', 'map'))) {
-				$exploded = explode('/shared/httpd/espiasomarketing.com.br/wp-content/themes/espiaso/', $file);
+				$exploded = explode('wp-content/themes/espiaso/', $file);
 				$path = '/' . $exploded[1];
 				$version = filemtime($file);
 				wp_enqueue_style('app_css_' . rand(1, 100), get_stylesheet_directory_uri() . $path, array(), $version);
@@ -23,7 +23,7 @@ function ms_enqueue_scripts_front()
 		foreach ($files as $file) {
 			$ext = pathinfo($file, PATHINFO_EXTENSION);
 			if ($ext === 'js' && !in_array($ext, array('txt', 'map'))) {
-				$exploded = explode('/shared/httpd/espiasomarketing.com.br/wp-content/themes/espiaso/', $file);
+				$exploded = explode('wp-content/themes/espiaso/', $file);
 				$path = '/' . $exploded[1];
 				$version = filemtime($file);
 				wp_enqueue_script('app_js' . rand(1, 100), get_stylesheet_directory_uri() . $path, array(), $version, true);
