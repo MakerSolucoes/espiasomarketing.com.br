@@ -1,5 +1,5 @@
 async function getWordPressContent() {
-  const url_base = 'https://espiasomarketing.com.br.loc';
+  const url_base = 'https://espiasomarketing.com.br';
   const response = await fetch(url_base + '/wp-json/espia/v1/configs', {
     method: 'GET',
     headers: {
@@ -12,7 +12,7 @@ async function getWordPressContent() {
 }
 
 async function getSiteGeneral() {
-  const url_base = 'https://espiasomarketing.com.br.loc';
+  const url_base = 'https://espiasomarketing.com.br';
   const response = await fetch(url_base + '/wp-json', {
     method: 'GET',
     headers: {
@@ -25,7 +25,7 @@ async function getSiteGeneral() {
 }
 
 async function getPortfolio() {
-  const url_base = 'https://espiasomarketing.com.br.loc';
+  const url_base = 'https://espiasomarketing.com.br';
   const response = await fetch(url_base + '/wp-json/espia/v1/portfolio', {
     method: 'GET',
     headers: {
@@ -38,7 +38,7 @@ async function getPortfolio() {
 }
 
 async function getTeam() {
-  const url_base = 'https://espiasomarketing.com.br.loc';
+  const url_base = 'https://espiasomarketing.com.br';
   const response = await fetch(url_base + '/wp-json/espia/v1/time', {
     method: 'GET',
     headers: {
