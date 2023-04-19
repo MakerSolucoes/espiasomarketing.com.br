@@ -294,15 +294,10 @@
   background-color: #000;
 }
 
-// .cs-gescout_show {
-//   top: 0;
-//   opacity: 1;
-// }
-
 .cs-site_branding {
   display: inline-block;
   img {
-    max-height: 250px;
+    max-height: 70px;
   }
 }
 
@@ -740,7 +735,13 @@
     margin-right: 0;
   }
   .cs-site_branding img {
-    max-height: 32px;
+    max-height: 40px;
+    @media (min-width: 450px) {
+      max-height: 50px;
+    }
+    @media (min-width: 575px) {
+      max-height: 75px !important;
+    }
   }
   .cs-site_header.cs-style1 .cs-btn {
     span {

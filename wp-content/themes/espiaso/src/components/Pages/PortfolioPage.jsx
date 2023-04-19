@@ -1,192 +1,150 @@
 import { Icon } from '@iconify/react';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { pageTitle } from '../../helper';
-import Cta from '../Cta';
-import PageHeading from '../PageHeading';
+import React, { useEffect, useState } from 'react';
 import Portfolio from '../Portfolio';
 import Div from '../Div';
 import SectionHeading from '../SectionHeading';
 import Spacing from '../Spacing';
+import getApiConfigs from '../../apiConfig';
 
 export default function PortfolioPage() {
-  pageTitle('Portfolio');
-  const [active, setActive] = useState('all');
-  const [itemShow, setItemShow] = useState(7);
-  const portfolioData = [
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_4.jpeg',
-      category: 'ui_ux_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_5.jpeg',
-      category: 'logo_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_6.jpeg',
-      category: 'web_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_7.jpeg',
-      category: 'mobile_apps',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_8.jpeg',
-      category: 'ui_ux_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_9.jpeg',
-      category: 'web_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_10.jpeg',
-      category: 'logo_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_4.jpeg',
-      category: 'ui_ux_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_5.jpeg',
-      category: 'logo_design',
-    },
-    {
-      title: 'Colorful Art Work',
-      subtitle: 'See Details',
-      href: '/portfolio/portfolio-details',
-      src: '/images/portfolio_6.jpeg',
-      category: 'web_design',
-    },
-  ];
-  const categoryMenu = [
-    {
-      title: 'Web Design',
-      category: 'web_design',
-    },
-    {
-      title: 'UI/UX Design',
-      category: 'ui_ux_design',
-    },
-    {
-      title: 'Mobile Apps',
-      category: 'mobile_apps',
-    },
-    {
-      title: 'Logo Design',
-      category: 'logo_design',
-    },
-  ];
+	const [apiConfigs, setApiConfigs] = useState({});
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+	const [active, setActive] = useState('all');
+	const [itemShow, setItemShow] = useState(7);
+	
 
-  return (
-    <>
-      <PageHeading
-        title="Portfolio"
-        bgSrc="images/portfolio_hero_bg.jpeg"
-        pageLinkText="Portfolio"
-      />
-      <Spacing lg="145" md="80" />
-      <Div className="container">
-        <Div className="cs-portfolio_1_heading">
-          <SectionHeading title="Some recent work" subtitle="Our Portfolio" />
-          <Div className="cs-filter_menu cs-style1">
-            <ul className="cs-mp0 cs-center">
-              <li className={active === 'all' ? 'active' : ''}>
-                <span onClick={() => setActive('all')}>All</span>
-              </li>
-              {categoryMenu.map((item, index) => (
-                <li
-                  className={active === item.category ? 'active' : ''}
-                  key={index}
-                >
-                  <span onClick={() => setActive(item.category)}>
-                    {item.title}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Div>
-        </Div>
-        <Spacing lg="90" md="45" />
-        <Div className="row">
-          {portfolioData.slice(0, itemShow).map((item, index) => (
-            <Div
-              className={`${
-                index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'
-              } ${
-                active === 'all'
-                  ? ''
-                  : !(active === item.category)
-                  ? 'd-none'
-                  : ''
-              }`}
-              key={index}
-            >
-              <Portfolio
-                title={item.title}
-                subtitle={item.subtitle}
-                href={item.href}
-                src={item.src}
-                variant="cs-style1 cs-type1"
-              />
-              <Spacing lg="25" md="25" />
-            </Div>
-          ))}
-        </Div>
 
-        <Div className="text-center">
-          {portfolioData.length <= itemShow ? (
-            ''
-          ) : (
-            <>
-              <Spacing lg="65" md="40" />
-              <span
-                className="cs-text_btn"
-                onClick={() => setItemShow(itemShow + 3)}
-              >
-                <span>Load More</span>
-                <Icon icon="bi:arrow-right" />
-              </span>
-            </>
-          )}
-        </Div>
-      </Div>
-      <Spacing lg="145" md="80" />
-      <Cta
-        title="agency@arino.com"
-        bgSrc="/images/cta_bg_2.jpeg"
-        variant="rounded-0"
-      />
-    </>
-  );
+	function getPosts(posts) {
+		if (!posts) {
+			return
+		} else {
+			let response = posts.map((post) => {
+				let categories = post.categoria.map((category) => {
+					return category.slug
+				})
+				let categoriesNames = post.categoria.map((category) => {
+					return category.name
+				})
+				let portfolio = {
+					title: post.title,
+					subtitle: categoriesNames.join(', '),
+					href: post.slug,
+					src: post.thumbnail,
+					category: categories
+				}
+				return portfolio
+			})
+			return response;
+		}
+	}
+
+	function getCategoriesPosts(posts) {
+		if (!posts) {
+		  return [];
+		} else {
+		  let all_categories = [];
+		  posts.forEach((post) => {
+			post.categoria.forEach((category) => {
+			  const existingCategory = all_categories.find(
+				(c) => c.title === category.name && c.category === category.slug
+			  );
+			  if (!existingCategory) {
+				all_categories.push({ title: category.name, category: category.slug });
+			  }
+			});
+		  });
+		  return all_categories;
+		}
+	  }
+	  
+
+
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+		const fetchData = async () => {
+			const configs = await getApiConfigs();
+			setApiConfigs(configs);
+		};
+
+		fetchData();
+	}, []);
+	const portfolio = apiConfigs.portfolio
+	const categoriesMenu = getCategoriesPosts(portfolio)
+	const postsLoop = getPosts(portfolio)
+	return (
+		<>
+			{portfolio ? (
+				<>
+					<Div className="container">
+						<Div className="cs-portfolio_1_heading">
+							<SectionHeading title="Nossos trabalhos recentes" subtitle="Portfolio" />
+							<Div className="cs-filter_menu cs-style1">
+								<ul className="cs-mp0 cs-center">
+									<li className={active === 'all' ? 'active' : ''}>
+										<span onClick={() => setActive('all')}>Todos</span>
+									</li>
+									{categoriesMenu.map((item, index) => (
+										<li
+											className={active === item.category ? 'active' : ''}
+											key={index}
+										>
+											<span onClick={() => setActive(item.category)}>
+												{item.title}
+											</span>
+										</li>
+									))}
+								</ul>
+							</Div>
+						</Div>
+						<Spacing lg="90" md="45" />
+						<Div className="row">
+							{postsLoop.slice(0, itemShow).map((item, index) => (
+								<Div
+									className={`${index === 3 || index === 6 ? 'col-lg-8' : 'col-lg-4'
+										} ${active === 'all'
+											? ''
+											: !item.category.some(cat => cat === active)
+												? 'd-none'
+												: ''
+										}`}
+									key={index}
+								>
+									<Portfolio
+										title={item.title}
+										subtitle={item.subtitle}
+										href={item.href}
+										src={item.src}
+										variant="cs-style1 cs-type1"
+									/>
+									<Spacing lg="25" md="25" />
+								</Div>
+							))}
+
+						</Div>
+
+						<Div className="text-center">
+							{postsLoop.length <= itemShow ? (
+								''
+							) : (
+								<>
+									<Spacing lg="65" md="40" />
+									<span
+										className="cs-text_btn"
+										onClick={() => setItemShow(itemShow + 3)}
+									>
+										<span>Carregar mais</span>
+										<Icon icon="bi:arrow-right" />
+									</span>
+								</>
+							)}
+						</Div>
+					</Div>
+				</>
+			) : (
+				<div></div>
+			)}
+
+		</>
+	);
 }

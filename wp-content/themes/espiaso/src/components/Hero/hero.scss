@@ -593,8 +593,41 @@
     padding-left: 0px;
   }
 }
+@media screen and (min-width: 360px) {
+  .cs-hero.cs-style1 {
+    padding-top: 0px;
+    padding-bottom: 260px;
+    display: flex;
+    align-items: center;
+    max-height: 700px;
 
-@media screen and (max-width: 991px) {
+    .cs-hero_info {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+    .cs-hero_title {
+      padding-top: 30px;
+      font-size: 56px;
+    }
+    .cs-hero_subtitle {
+      margin-bottom: 30px;
+      max-width: 500px;
+    }
+    .cs-hero_info > div {
+      width: 100%;
+    }
+    .cs-down_btn {
+      bottom: 220px;
+    }
+    &.cs-type1 {
+      .cs-hero_subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+}
+@media screen and (min-width: 501px) {
   .cs-hero.cs-style1 {
     padding-top: 60px;
     padding-bottom: 260px;
@@ -606,6 +639,7 @@
       align-items: flex-start;
     }
     .cs-hero_title {
+      margin-top: 40px;
       font-size: 56px;
       margin-bottom: 20px;
     }

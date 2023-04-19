@@ -1,0 +1,8 @@
+# Define o padrão de identação
+[*]
+indent_style = tab
+indent_size = 4
+
+# Define a codificação
+[*.{php,js,css,html}]
+charset = utf-8

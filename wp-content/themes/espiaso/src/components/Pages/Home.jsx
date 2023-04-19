@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../Card';
 import FunFact from '../FunFact';
 import Hero from '../Hero';
@@ -8,263 +8,271 @@ import Spacing from '../Spacing';
 import Cta from '../Cta';
 import LogoList from '../LogoList';
 import MovingText from '../MovingText';
-import PortfolioSlider from '../Slider/PortfolioSlider';
+// import PortfolioSlider from '../Slider/PortfolioSlider';
+import PortfolioPage  from './PortfolioPage';
 import PostSlider from '../Slider/PostSlider';
 import TestimonialSlider from '../Slider/TestimonialSlider';
 import TeamSlider from '../Slider/TeamSlider';
 import VideoModal from '../VideoModal';
 import TimelineSlider from '../Slider/TimelineSlider';
 import { pageTitle } from '../../helper';
+import getApiConfigs from '../../apiConfig';
+import './scss/home/home.scss';
 
 export default function Home() {
-  pageTitle('Home');
+	pageTitle('Home');
+	const [apiConfigs, setApiConfigs] = useState({});
 
-  // Hero Social Links
-  const heroSocialLinks = [
-    {
-      name: 'Behance',
-      links: '/',
-    },
-    {
-      name: 'Twitter',
-      links: '/',
-    },
-  ];
 
-  // FunFact Data
-  const funfaceData = [
-    {
-      title: 'Global Happy Clients',
-      factNumber: '40K',
-    },
-    {
-      title: 'Project Completed',
-      factNumber: '50K',
-    },
-    {
-      title: 'Team Members',
-      factNumber: '245',
-    },
-    {
-      title: 'Digital products',
-      factNumber: '550',
-    },
-  ];
+	function formatTestmonials(apiTestimonials) {
+		return apiTestimonials.map((testimonial) => {
+			return {
+				testimonialThumb: testimonial.imagem,
+				testimonialText: testimonial.descricao,
+				avatarName: testimonial.nome,
+				avatarDesignation: testimonial.cargo,
+				ratings: testimonial.rating,
+			};
+		});
+	}
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+	function formatTeamData(apiTeamData) {
+		return apiTeamData.map((member) => {
+			const socialLinks = {
+				linkedin: '',
+				twitter: '',
+				youtube: '',
+				facebook: '',
+				instagram: '',
+			};
+			// Verifica cada plataforma social e atribui o link correto
 
-  return (
-    <>
-      {/* Start Hero Section */}
-      <Hero
-        title="Creativity In <br/>Our Blood Line"
-        subtitle="We deliver best problem solving solution for our client and provide finest finishing product in present and upcoming future."
-        btnText="Get a Quote"
-        btnLink="/contact"
-        scrollDownId="#service"
-        socialLinksHeading="Follow Us"
-        heroSocialLinks={heroSocialLinks}
-        bgImageUrl="/images/hero_bg.jpeg"
-      />
-      {/* End Hero Section */}
+			if (member.social) {
+				member.social.forEach((socialItem) => {
+					if (socialItem.plataforma.toLowerCase() === 'linkedin') {
+						socialLinks.linkedin = socialItem.link;
+					} else if (socialItem.plataforma.toLowerCase() === 'twitter') {
+						socialLinks.twitter = socialItem.link;
+					} else if (socialItem.plataforma.toLowerCase() === 'youtube') {
+						socialLinks.youtube = socialItem.link;
+					} else if (socialItem.plataforma.toLowerCase() === 'facebook') {
+						socialLinks.facebook = socialItem.link;
+					} else if (socialItem.plataforma.toLowerCase() === 'instagram') {
+						socialLinks.instagram = socialItem.link;
+					}
+				});
+			}
 
-      {/* Start FunFact Section */}
-      <div className="container">
-        <FunFact
-          variant="cs-type1"
-          title="Our fun fact"
-          subtitle="Sed ut perspiciatis unde omnis iste natus error voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis."
-          data={funfaceData}
-        />
-      </div>
-      {/* End FunFact Section */}
+			return {
+				memberImage: member.thumbnail,
+				memberName: member.title,
+				memberDesignation: member.content,
+				memberSocial: socialLinks,
+			};
+		});
+	}
 
-      {/* Start Service Section */}
-      <Spacing lg="150" md="80" />
-      <Div id="service">
-        <Div className="container">
-          <Div className="row">
-            <Div className="col-xl-4">
-              <SectionHeading
-                title="Services we can help you with"
-                subtitle="What Can We Do"
-                btnText="See All Services"
-                btnLink="/service"
-              />
-              <Spacing lg="90" md="45" />
-            </Div>
-            <Div className="col-xl-8">
-              <Div className="row">
-                <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
-                <Div className="col-lg-3 col-sm-6">
-                  <Card
-                    title="UI/UX design"
-                    link="/service/service-details"
-                    src="/images/service_1.jpeg"
-                    alt="Service"
-                  />
-                  <Spacing lg="0" md="30" />
-                </Div>
-                <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
-                <Div className="col-lg-3 col-sm-6">
-                  <Card
-                    title="React.js Development"
-                    link="/service/service-details"
-                    src="/images/service_2.jpeg"
-                    alt="Service"
-                  />
-                  <Spacing lg="0" md="30" />
-                </Div>
-                <Div className="col-lg-3 col-sm-6">
-                  <Card
-                    title="Digital Marketing"
-                    link="/service/service-details"
-                    src="/images/service_3.jpeg"
-                    alt="Service"
-                  />
-                  <Spacing lg="0" md="30" />
-                </Div>
-                <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
-                <Div className="col-lg-3 col-sm-6">
-                  <Card
-                    title="Technology"
-                    link="/service/service-details"
-                    src="/images/service_4.jpeg"
-                    alt="Service"
-                  />
-                  <Spacing lg="0" md="30" />
-                </Div>
-                <Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
-              </Div>
-            </Div>
-          </Div>
-        </Div>
-      </Div>
-      {/* End Service Section */}
+	useEffect(() => {
+		const fetchData = async () => {
+			const configs = await getApiConfigs();
+			setApiConfigs(configs);
+		};
 
-      {/* Start Portfolio Section */}
-      <Spacing lg="150" md="50" />
-      <Div>
-        <Div className="container">
-          <SectionHeading
-            title="Portfolio to explore"
-            subtitle="Latest Projects"
-            variant="cs-style1 text-center"
-          />
-          <Spacing lg="90" md="45" />
-        </Div>
-        <PortfolioSlider />
-      </Div>
-      {/* End Portfolio Section */}
+		fetchData();
+		window.scrollTo(0, 0);
+	}, []);
+	const Main = apiConfigs.main
+	const curiosidades = apiConfigs.curiosidades
+	const servicos = apiConfigs.servicos
+	const video = apiConfigs.video
+	const time = apiConfigs.time
+	const depoimentos = apiConfigs.depoimentos
+	const parceiros = apiConfigs.parceiros
+	const agendamento = apiConfigs.agendamento
+	return (
+		<>
+			{Main ? (
+				<>
+					{/* Conteúdo dependente de Main */}
+					<Div id="home">
+						<Hero 
+							title={Main.titulo}
+							subtitle={Main.descricao}
+							btnText="Faça um orçamento"
+							btnLink={Main.link_orcamento}
+							scrollDownId="#service"
+							socialLinksHeading=""
+							heroSocialLinks=''
+							bgImageUrl="/images/hero_bg.jpeg"/>
+					</Div>
+					<Div id="curiosidades">
 
-      {/* Start Awards Section */}
-      <Spacing lg="150" md="80" />
-      <Div className="cs-shape_wrap_2">
-        <Div className="cs-shape_2">
-          <Div />
-        </Div>
-        <Div className="container">
-          <Div className="row">
-            <Div className="col-xl-4">
-              <SectionHeading
-                title="We get multiple awards"
-                subtitle="Our Awards"
-                variant="cs-style1"
-              />
-              <Spacing lg="90" md="45" />
-            </Div>
-            <Div className="col-xl-7 offset-xl-1">
-              <TimelineSlider />
-            </Div>
-          </Div>
-        </Div>
-      </Div>
-      {/* End Awards Section */}
+						<div className="container">
+							<FunFact
+								variant="cs-type1"
+								title={curiosidades.titulo}
+								subtitle={curiosidades.descricao}
+								data={
+									curiosidades.loop.map((curiosidade) => ({
+										title: curiosidade.descricao,
+										factNumber: curiosidade.valor,
+									}))
+								}
+							/>
+						</div>
+					</Div>
+					{/* Serviços */}
+					<Spacing lg="150" md="80" />
+					<Div id="servicos">
+						<Div className="container">
+							<Div className="row">
+								<Div className="col-xl-4">
+									<SectionHeading
+										title={servicos.titulo}
+										subtitle={servicos.header}
+										btnText="Ver todos nossos serviços"
+										btnLink="#"
+									/>
+									<Spacing lg="90" md="45" />
+								</Div>
+								<Div className="col-xl-8">
+									<Div className="row">
+										<Div className="col-lg-3 col-sm-6 cs-hidden_mobile"></Div>
+										{servicos.loop.map((servico, index) => (
+											<Div key={index} className="col-lg-3 col-sm-6">
+												<Card
+													title={servico.titulo}
+													link="#"
+													src={servico.background}
+													alt="Service"
+												/>
+												<Spacing lg="0" md="30" />
+											</Div>
+										))}
+									</Div>
+								</Div>
+							</Div>
+						</Div>
+					</Div>
 
-      {/* Start Video Block Section */}
-      <Spacing lg="130" md="70" />
-      <Div className="container">
-        <h2 className="cs-font_50 cs-m0 text-center cs-line_height_4">
-          Our agile process is ability to adapt and respond to change. Agile
-          organizations view change as an opportunity, not a threat.
-        </h2>
-        <Spacing lg="70" md="70" />
-        <VideoModal
-          videoSrc="https://www.youtube.com/watch?v=VcaAVWtP48A"
-          bgUrl="/images/video_bg.jpeg"
-        />
-      </Div>
-      {/* End Video Block Section */}
+					{/* End Service Section */}
+					{/* Start video Section */}
+					<Div id="video" className="container">
+						<h2 className="cs-font_50 cs-m0 text-center cs-line_height_4">
+							{video.descricao}
+						</h2>
+						<Spacing lg="70" md="70" />
+						<VideoModal
+							videoSrc={video.link}
+							bgUrl={video.background}
+						/>
+					</Div>
+					{/* End video Section */}
 
-      {/* Start Team Section */}
-      <Spacing lg="145" md="80" />
-      <Div className="container">
-        <SectionHeading
-          title="Awesome team <br/>members"
-          subtitle="Our Team"
-          variant="cs-style1"
-        />
-        <Spacing lg="85" md="45" />
-        <TeamSlider />
-      </Div>
-      <Spacing lg="150" md="80" />
-      {/* End Team Section */}
+					{/* Start Team Section */}
+					<Div id="team" className="container">
+						<SectionHeading
+							title="Espia só a <br/>nossa equipe"
+							subtitle=" "
+							variant="cs-style1"
+						/>
+						<Spacing lg="85" md="45" />
+						<TeamSlider
+							teamData={formatTeamData(time)}
+						/>
+					</Div>
+					{/* End Team Section */}
+					{/* Start Portfolio Section */}
+					<Div id="portfolio">
+						<PortfolioPage />
+					</Div>
+					{/* End Portfolio Section */}
 
-      {/* Start Testimonial Section */}
-      <TestimonialSlider />
-      {/* End Testimonial Section */}
+					{/* Start Testimonial Section */}
+					<Div id="depoimentos">
+						<TestimonialSlider
+							testimonialData={formatTestmonials(depoimentos.loop)}
+						/>
+					</Div>
+					{/* End Testimonial Section */}
 
-      {/* Start Blog Section */}
-      <Spacing lg="150" md="80" />
-      <Div className="cs-shape_wrap_4">
-        <Div className="cs-shape_4"></Div>
-        <Div className="cs-shape_4"></Div>
-        <Div className="container">
-          <Div className="row">
-            <Div className="col-xl-4">
-              <SectionHeading
-                title="Explore recent publication"
-                subtitle="Our Blog"
-                btnText="View More Blog"
-                btnLink="/blog"
-              />
-              <Spacing lg="90" md="45" />
-            </Div>
-            <Div className="col-xl-7 offset-xl-1">
-              <Div className="cs-half_of_full_width">
-                <PostSlider />
-              </Div>
-            </Div>
-          </Div>
-        </Div>
-      </Div>
-      {/* End Blog Section */}
+					{/* Start MovingText Section */}
+					<Div id="parceiros">
+						<MovingText text={parceiros.titulo} />
+						
+						<Div className="container">
+							<LogoList
+								partnerLogos={parceiros.loop}
+							/>
+						</Div>
+					</Div>
+					{/* End LogoList Section */}
 
-      {/* Start MovingText Section */}
-      <Spacing lg="125" md="70" />
-      <MovingText text="Our reputed world wide partners" />
-      <Spacing lg="105" md="70" />
-      {/* End MovingText Section */}
 
-      {/* Start LogoList Section */}
-      <Div className="container">
-        <LogoList />
-      </Div>
-      <Spacing lg="150" md="80" />
-      {/* End LogoList Section */}
+					{/* Start CTA Section */}
+					<Div id="agendamento" className="container">
+						<Cta
+							title={agendamento.titulo}
+							btnText={agendamento.botao.titulo}
+							btnLink={agendamento.botao.link}
+							bgSrc={agendamento.background}
+						/>
+					</Div>
+					{/* End CTA Section */}
 
-      {/* Start CTA Section */}
-      <Div className="container">
-        <Cta
-          title="Let’s disscuse make <br />something <i>cool</i> together"
-          btnText="Apply For Meeting"
-          btnLink="/contact"
-          bgSrc="/images/cta_bg.jpeg"
-        />
-      </Div>
-      {/* End CTA Section */}
-    </>
-  );
+				</>
+			) : (
+				<div></div>
+			)}
+			<Div className="hidden">
+			{/* HIDE  Start Awards Section */}
+			<Div className="cs-shape_wrap_2">
+				<Div className="cs-shape_2">
+					<Div />
+				</Div>
+				<Div className="container">
+					<Div className="row">
+						<Div className="col-xl-4">
+							<SectionHeading
+								title="We get multiple awards"
+								subtitle="Our Awards"
+								variant="cs-style1"
+							/>
+							<Spacing lg="90" md="45" />
+						</Div>
+						<Div className="col-xl-7 offset-xl-1">
+							<TimelineSlider />
+						</Div>
+					</Div>
+				</Div>
+			</Div>
+			{/* End Awards Section */}
+
+			{/* HIDE -  Start Blog Section */}
+			<Div className="cs-shape_wrap_4 hidden">
+				<Div className="cs-shape_4"></Div>
+				<Div className="cs-shape_4"></Div>
+				<Div className="container">
+					<Div className="row">
+						<Div className="col-xl-4">
+							<SectionHeading
+								title="Explore recent publication"
+								subtitle="Our Blog"
+								btnText="View More Blog"
+								btnLink="/blog"
+							/>
+							<Spacing lg="90" md="45" />
+						</Div>
+						<Div className="col-xl-7 offset-xl-1">
+							<Div className="cs-half_of_full_width">
+								<PostSlider />
+							</Div>
+						</Div>
+					</Div>
+				</Div>
+			</Div>
+			</Div>
+			{/* End Blog Section */}
+		</>
+	);
 }
